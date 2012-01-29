@@ -37,6 +37,7 @@ foreach my $zone (@allzones)
 		name=>$zone->name,
 		);
 
+	# Define new delegation array to be put in parent domain.
 	my $nsarray = [];
 	push (@$nsarray,
 		Infoblox::DNS::Nameserver->new(name=>$nsgroup->primary()->name,
@@ -48,12 +49,20 @@ foreach my $zone (@allzones)
 			Infoblox::DNS::Nameserver->new(name=>$_->name,
 				ipv4addr=>'255.255.255.255'));
 		}
+	### 
 
 	if ($delegatedzone)
 		{
 		next unless ($delegatedzone->delegate_to());
-		print "Changing " . $delegatedzone->name();
+		print "Checking " . $delegatedzone->name();
 
+		# Compare the two delegations. If they are the same, don't bother continuing
+		my @currentdelegation = map {$_->name} @{$delegatedzone->delegate_to()};
+		my @newdelegation = map {$_->name} @$nsarray;
+		next if ( @currentdelegation eq @newdelegation);
+		### 
+
+		print "Changing " . $delegatedzone->name();
 		$delegatedzone->delegate_to($nsarray);
 		my $result = $session2->modify($delegatedzone);
 		if ($result) {print "Sucessfully changed " . $delegatedzone->name}
