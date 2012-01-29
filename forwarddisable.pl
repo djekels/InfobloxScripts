@@ -6,7 +6,7 @@ use Net::Netrc;
 use strict;
 
 $\ = "\n";
-my $bloxmaster = 'dns1.avon.com';
+my $bloxmaster = 'ryentp2.rye.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 
@@ -22,6 +22,7 @@ my @zones = $session->search(object=>'Infoblox::DNS::Zone',
 foreach (@zones)
 	{
 	next if ($_->name eq '127.0.0.0/24');   # Gotta skip loopback
+	next unless ($_->disable_forwarding());
 
 	if ($_->disable_forwarding() eq "false") # Turn on if it's off
 		{
