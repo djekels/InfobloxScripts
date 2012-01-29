@@ -6,6 +6,7 @@ use Net::Netrc;
 use strict;
 
 local $\ = "\n";
+my $identical = 1;
 my $bloxmaster = 'ryentp2.rye.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
@@ -57,9 +58,20 @@ foreach my $zone (@allzones)
 		print "Checking " . $delegatedzone->name();
 
 		# Compare the two delegations. If they are the same, don't bother continuing
+		$identical = 1;
 		my @currentdelegation = map {$_->name} @{$delegatedzone->delegate_to()};
 		my @newdelegation = map {$_->name} @$nsarray;
-		next if ( @currentdelegation eq @newdelegation);
+		$identical = 0 if (scalar @currentdelegation != scalar @newdelegation);
+		BLORF: while  ($identical) 
+			{
+			foreach my $doop (@newdelegation)
+				{
+				$identical = grep(/$doop/, @currentdelegation);
+				goto BLORF unless ($identical);
+				}
+			last if ($identical);
+			}
+		next if ($identical);
 		### 
 
 		print "Changing " . $delegatedzone->name();
