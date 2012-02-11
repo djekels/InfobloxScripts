@@ -24,7 +24,8 @@ foreach (@zones)
 	{
 	next if ($_->name eq '127.0.0.0/24');   # Gotta skip loopback
 
-	unless (@{$_->allow_update()} eq @$reftoany)
+	my $allowupdatearrayref = $_->allow_update();
+	if ((!$allowupdatearrayref) || (scalar @{$allowupdatearrayref} ne 1))
 		{
 		print $_->name . " needs changing.";
 		$_->allow_update($reftoany);
