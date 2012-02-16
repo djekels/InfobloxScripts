@@ -28,13 +28,15 @@ for my $host ($options{h})
 	unless ($hostrecord) {die ($session->status_detail())}
 
 	local $, = "\n\t";
+	
+	my $aliasref = $hostrecord->aliases;
 	print "Current aliases are:\n\t";
-	print @{$hostrecord->aliases};
+	print @{$aliasref};
 	print "\n\n";
 
 	if ($options{a})
 		{
-		push (@{$hostrecord->aliases}, $options{a});
+		push (@{$aliasref}, $options{a});
 		my $result = $session->modify($hostrecord);
 
 		if ($result) { print "Added alias " . $options{a} }
