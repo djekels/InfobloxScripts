@@ -39,7 +39,7 @@ for my $host ($options{h})
 		push (@{$aliasref}, $options{a});
 		my $result = $session->modify($hostrecord);
 
-		if ($result) { print "Added alias " . $options{a} }
+		if ($result) { print "Added alias " . $options{a} . "\n" }
 			else {warn $session->status_detail()}
 		}
 	}
