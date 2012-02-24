@@ -11,48 +11,33 @@ my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds-
 
 # Find all the aliases in all the Hosts.
 
-my @allhostaliases;
-
-my @allhosts = $session->search( "object" => "Infoblox::DNS::Host", "name" => ".*" );
-
-foreach my $hostrecord (@allhosts)
-	{
-	next if ($hostrecord->configure_for_dns() eq "false");
-	push (@allhostaliases, @{$hostrecord->aliases});
-	}
-
-# Now, collect all CNAME records
-
-print "Phase I!\n\n\n";
-
 my @cnamerecords = $session->search("object" => "Infoblox::DNS::Record::CNAME", "name" => '.*' );
 
 foreach my $cnamerecord (@cnamerecords)
 	{
 	my $target = $cnamerecord->canonical;
-	my $grepresult = grep(/^$target$/, @allhostaliases);
-	if ($grepresult > 0)
+	my $hostrecord = $session->get(object=>"Infoblox::DNS::Host",
+		name=>$target,
+		);
+	if ($hostrecord)
 		{
-		print $cnamerecord->name . " points to $target!!!\n";
+		local $\ = "\n";
+		local $, = "\n\t";
+		
+		my $cname =  $cnamerecord->name;
+		print "Found that $cname  points to " . $hostrecord->name;
+		my $hostaliases = $hostrecord->aliases();
+
+		if (scalar @$hostaliases > 0)
+			{
+			print "Current aliases are:\n\t";
+			print @$hostaliases;
+			}
+		print "Attempting to add $cname.";
+		$session->remove($cnamerecord);
+		push (@$hostaliases, $cname);
+		my $result = $session->modify($hostrecord);
+		if ($result) { print "Success!"} else {print $session->status_detail()}
 		}
 	}
 
-print "\n\n\nPhase II!\n\n\n";
-
-
-my @cnamearray;
-foreach (@cnamerecords)
-	{
-	push (@cnamearray, $_->name);
-	}
-
-foreach my $cnamerecord (@cnamerecords)
-	{
-	my $target = $cnamerecord->canonical;
-	my $grepresult = grep(/^$target$/, @cnamearray);
-	if ($grepresult > 0)
-		{
-		print $cnamerecord->name . " points to $target!!!\n";
-		}
-	}
-print "\nDONE!\n";
