@@ -35,7 +35,7 @@ foreach (@zones)
 
 print '';
 
-if (grep(/dns/, $session->restart_status())) # Restart stuff if needed
+if (grep(/dns/, $session->restart_status(delay_between_members=>60))) # Restart stuff if needed
 	{
 	print "Have to restart DNS services.";
 	my $result = $session->restart();

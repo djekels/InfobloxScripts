@@ -57,7 +57,7 @@ if ($neednewtsig)
 if (grep(/dns/, $session->restart_status())) # Restart stuff if needed
         {
         print "Have to restart DNS services.";
-        my $result = $session->restart(delay_between_members=>20);
+        my $result = $session->restart(delay_between_members=>60);
         if ($result) {print "Succesfully restarted members."} else { print "Problem restarting."}
         }
 
