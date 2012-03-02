@@ -28,15 +28,17 @@ my @hostrecords = $session->search(
 	ipv4addr=>$options{r},
 	);
 
-foreach my $hostrecord (@hostrecords)
+while (scalar(@hostrecords) gt 0)
 	{
 	local $\ = "\n";
+	my $hostrecord = pop(@hostrecords);
+	next if ($hostrecord->configure_for_dns() eq 'false');
 	print "Testing " . $hostrecord->name;
 	my $arrayipv4 = $hostrecord->ipv4addrs();
 	foreach my $ip (@$arrayipv4)
 		{
-		my @arrayptr = $session->search(object=>"Infoblox::DNS::Record::PTR",
-			ipv4addr=>$ip . '$',
+		my @arrayptr = $session->get(object=>"Infoblox::DNS::Record::PTR",
+			ipv4addr=>$ip,
 			);
 		foreach my $ptr (@arrayptr)
 			{
