@@ -7,7 +7,7 @@ use strict;
 
 local $\ = "\n";
 
-my $bloxmaster = 'ryentp2.rye.avon.com';
+my $bloxmaster = 'dns1.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 
@@ -23,6 +23,7 @@ my @allzones = $session->search(object => "Infoblox::DNS::Zone",
 foreach my $zone (@allzones)
 	{
 	next if ($zone->name eq "127.0.0.0/24");
+	my $delegated = ($zone->delegate_to()) ? 1:0;
 	my @oop = $zone->name =~ /^(\d+)\.(\d+)\.(\d+)\./;
-	print "$oop[2].$oop[1].$oop[0].in-addr.arpa";
+	print "$oop[2].$oop[1].$oop[0].in-addr.arpa" unless ($delegated);
 	}
