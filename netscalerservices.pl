@@ -9,54 +9,54 @@ use XML::Dumper;
 use strict;
 
 my @countryprefixes = (
-'ae',
 'al',
+'ar',
+'au',
 'ba',
 'bg',
-'ct',
-'cy',
+'br',
+'ca',
+'cl',
+'cn',
+'co',
 'cz',
 'de',
+'do',
 'ee',
-'eg',
-'es',
 'fi',
-'fr',
 'ge',
-'gr',
 'hr',
 'hu',
 'ie',
-'is',
+'in',
 'it',
-'jt',
+'jp',
 'kg',
+'kr',
 'kz',
-'lb',
 'lt',
-'ma',
+'lv',
 'md',
-'me',
 'mk',
-'mt',
-'mu',
-'om',
+'mx',
+'my',
+'nz',
+'ph',
 'pl',
+'pr',
 'pt',
 'ro',
 'rs',
 'ru',
-'sa',
 'si',
 'sk',
-'tn',
+'th',
 'tr',
-'ua',
-'uk',
-'za',
+'tw',
 );
 
-my @hosts = ('ryelxwebecw2.avon.net', 'ryelxwebecw1.qa.youravon.com');
+my %hostorder = ('ryelxwebeqw1.avon.net'=>3, 'ryelxwebeqw2.avon.net'=>4);
+my @hosts = (keys %hostorder);
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my %options;
 getopts("m: ", \%options);
@@ -71,8 +71,8 @@ unless ($session) {
 
 foreach my $host (@hosts)
 	{
-	(my $num) = $host =~ /(\d)/;
-	my @aliases = map{"qaf$_$num.ryenlbqadmz.avon.net"} @countryprefixes;
+	my $num = $hostorder{$host};
+	my @aliases = map{"qap$_$num.ryenlbqadmz.avon.net"} @countryprefixes;
 	my $hostrecord = $session->get(object=>'Infoblox::DNS::Host',
 			name=>$host
 			);
@@ -88,7 +88,7 @@ foreach my $host (@hosts)
 		push (@{$hostrecord->aliases}, @aliases);
 		my $result = $session->modify($hostrecord);
 
-		if ($result) { print "Added alias " . @aliases }
+		if ($result) { print "Added alias "; print @aliases; }
 			else {warn $session->status_detail()}
 		}
 	}
@@ -100,8 +100,6 @@ sub HELP_MESSAGE
         
         OPTIONS:
         --help (this message)
-        -m Infoblox Grid master
-        -h Host Record
-	-a Desired Alias\n";
+        -m Infoblox Grid master\n";
         exit 0;
         }   
