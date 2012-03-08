@@ -9,9 +9,22 @@ use strict;
 
 my $bloxmaster = 'dns1.avon.com';
 my %options;
-getopts("z:i: ", \%options);
+getopts("z:i:n: ", \%options);
+my $nsgroup = $options{n} or die;
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
+
+unless ($session)
+	{	
+        die("Construct session failed: ",
+           Infoblox::status_code() . ":" . Infoblox::status_detail());
+	}
+
+my $possiblensgroup = $session->get ( object=> 'Infoblox::Grid::DNS::Nsgroup',
+                        name=>$nsgroup,
+                        );
+
+die "New NS Group not found!" unless ($possiblensgroup);
 
 my $ipobj = new Net::IP($options{z});
 die unless ($ipobj->prefixlen() eq 24);
@@ -41,7 +54,7 @@ if ($oldzone) #Check for delegated zone and delete if found.
 
 my $importfrom = $options{i};
 my $newzone = Infoblox::DNS::Zone->new(name => $zone,
-	ns_group => "ryeAP-NS",
+	ns_group => $nsgroup,
 	disable_forwarding => "true",
 	allow_update => ["any"] );
 if ($importfrom){$newzone->import_from($importfrom)}
