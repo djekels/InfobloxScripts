@@ -66,7 +66,7 @@ if (grep(/dns/, $session->restart_status())) # Restart stuff if needed
         {
 	local $\ = "\n";
         print "Have to restart DNS services.";
-	my $future = DateTime->now(time_zone=>'EST')->add(minutes=>5);
+	my $future = DateTime->now(time_zone=>'US/Eastern')->add(minutes=>5);
 	my $futurerestart = $session->get(object=>'Infoblox::Grid::ScheduledTask',
 		scheduled_time=>"< $future",
 		action=>'Restart Services',
