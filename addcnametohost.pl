@@ -5,13 +5,13 @@
 use Infoblox;
 use Getopt::Std;
 use Net::Netrc;
-use XML::Dumper;
+#use XML::Dumper;
 use strict;
 
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my %options;
-getopts("m:h:a: ", \%options);
-my $bloxmaster = $options{m};
+getopts("h:a: ", \%options);
+my $bloxmaster = 'dns1.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 
@@ -51,7 +51,6 @@ sub HELP_MESSAGE
         
         OPTIONS:
         --help (this message)
-        -m Infoblox Grid master
         -h Host Record
 	-a Desired Alias\n";
         exit 0;
