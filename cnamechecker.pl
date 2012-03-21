@@ -15,7 +15,7 @@ my @cnamerecords = $session->search("object" => "Infoblox::DNS::Record::CNAME", 
 
 foreach my $cnamerecord (@cnamerecords)
 	{
-	my $target = $cnamerecord->canonical;
+	my $target = lc($cnamerecord->canonical);
 	my $hostrecord = $session->get(object=>"Infoblox::DNS::Host",
 		name=>$target,
 		);
