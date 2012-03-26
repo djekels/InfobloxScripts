@@ -11,7 +11,7 @@ use strict;
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my %options;
 getopts("m:d: ", \%options);
-my $bloxmaster = 'dns1.avon.com';
+my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 

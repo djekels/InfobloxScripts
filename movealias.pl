@@ -7,7 +7,7 @@ use Getopt::Std;
 use strict;
 
 local $\ = "\n";
-my $bloxmaster = 'dns1.avon.com';
+my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my %options;
 getopts("a:t: ", \%options);
 my $creds = Net::Netrc->lookup($bloxmaster);

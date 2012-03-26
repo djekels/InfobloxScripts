@@ -71,7 +71,7 @@ my @imported = qw/
 9.65.134.in-addr.arpa
 /;
 my $reftoany = ['any']; # Just a ref to any so that I declare it once.
-my $bloxmaster = 'dns1.avon.com';
+my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 

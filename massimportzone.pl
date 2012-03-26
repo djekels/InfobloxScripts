@@ -59,7 +59,7 @@ my @imported = qw/
 96.21.172.in-addr.arpa
 /;
 my $reftoany = ['any']; # Just a ref to any so that I declare it once.
-my $bloxmaster = 'dns1.avon.com';
+my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my %options;
 getopts("i:n: ", \%options);
 my $nsgroup = $options{n} or die;
