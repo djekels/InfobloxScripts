@@ -2,16 +2,13 @@
 #
 use Infoblox;
 use Net::Netrc;
-use Getopt::Std;
 use XML::Dumper;
 use strict;
 
 
 my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
-my %options;
-getopts("a: ", \%options);
-my $address = $options{a} or die;
+my $address = shift or die;
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 
 unless ($session) {
