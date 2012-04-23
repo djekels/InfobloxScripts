@@ -38,7 +38,7 @@ if ($targethost->name ne $sourcehost->name)
 	my $sourcealiasref = $sourcehost->aliases();
 	if (scalar @$sourcealiasref > 0)
 		{
-		print "Here is s the current list of aliases:\n";
+		print "Here is the current list of aliases:\n";
 		print @$sourcealiasref;
 		}
 
@@ -47,7 +47,7 @@ if ($targethost->name ne $sourcehost->name)
 	my $targetaliasref = $targethost->aliases();
 	if (scalar @$targetaliasref > 0)
 		{
-		print "Here is s the current list of aliases:\n";
+		print "Here is the current list of aliases:\n";
 		print @$targetaliasref;
 		}
 
