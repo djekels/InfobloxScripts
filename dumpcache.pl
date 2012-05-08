@@ -10,8 +10,8 @@ use strict;
 
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my %options;
-getopts("m:g: ", \%options);
-my $bloxmaster = $options{m};
+getopts("g: ", \%options);
+my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 
