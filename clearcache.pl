@@ -37,7 +37,7 @@ sub HELP_MESSAGE
         
         OPTIONS:
         --help (this message)
-        -m Infoblox Grid master
-	-g Desired Member\n";
+        -m Infoblox Grid member IP
+	-d Domain name\n";
         exit 0;
         }   
