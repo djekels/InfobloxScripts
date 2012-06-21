@@ -20,8 +20,7 @@ ae
 is
 /;
 
-my %hostorder = ('ryelxwebeqw1.avon.net'=>3, 'ryelxwebeqw2.avon.net'=>4);
-my @hosts = (keys %hostorder);
+my %hostorder = ('avonmsqweb1.avon.net'=>1, 'avonmsqweb2.avon.net'=>2, 'avonmsqweb3.rye.avon.com'=>3);
 my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
@@ -31,10 +30,9 @@ unless ($session) {
                        Infoblox::status_code() . ":" . Infoblox::status_detail());
                 }
 
-foreach my $host (@hosts)
+while ((my $host, my $num) = each %hostorder)
 	{
-	my $num = $hostorder{$host};
-	my @aliases = map{"qap$_$num.ryenlbqadmz.avon.net"} @countryprefixes;
+	my @aliases = map{"qapshopapi$_$num.ryenlbqadmz.avon.net"} @countryprefixes;
 	my $hostrecord = $session->get(object=>'Infoblox::DNS::Host',
 			name=>$host
 			);
@@ -50,18 +48,7 @@ foreach my $host (@hosts)
 		push (@{$hostrecord->aliases}, @aliases);
 		my $result = $session->modify($hostrecord);
 
-		if ($result) { print "Added alias "; print @aliases; }
+		if ($result) { print "Added alias "; print @aliases; print "\n\n" }
 			else {warn $session->status_detail()}
 		}
 	}
-
-
-sub HELP_MESSAGE
-        {
-        print "\n$0 [OPTIONS]|--help|--version
-        
-        OPTIONS:
-        --help (this message)
-        -m Infoblox Grid master\n";
-        exit 0;
-        }   
