@@ -10,6 +10,7 @@ local $\ = "\n";
 my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my %options;
 getopts("a:t: ", \%options);
+map {  s/\.\s*$// } values %options; # Make these tolerant of trailing dots
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 

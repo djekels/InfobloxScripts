@@ -11,6 +11,7 @@ use strict;
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my %options;
 getopts("h:a: ", \%options);
+map {  s/\.\s*$// } values %options;  # Make this script tolerant of trailing dots
 my $bloxmaster = 'ryeinfoblox.global.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
