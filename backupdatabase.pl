@@ -7,7 +7,7 @@ use Net::Netrc;
 #use XML::Dumper;
 use strict;
 
-my $bloxmaster = 'ryeinfoblox.global.avon.com';
+my $bloxmaster = 'ibl01nyc2us.us.wspgroup.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 

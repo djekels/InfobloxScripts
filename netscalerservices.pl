@@ -21,7 +21,7 @@ is
 /;
 
 my %hostorder = ('avonmsqweb1.avon.net'=>1, 'avonmsqweb2.avon.net'=>2, 'avonmsqweb3.rye.avon.com'=>3);
-my $bloxmaster = 'ryeinfoblox.global.avon.com';
+my $bloxmaster = 'ibl01nyc2us.us.wspgroup.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 

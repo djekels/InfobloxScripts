@@ -11,7 +11,7 @@ my $bloxmaster = 'ryentp2.rye.avon.com';
 my $creds = Net::Netrc->lookup($bloxmaster);
 my $session = Infoblox::Session->new("master"=> $bloxmaster, "username"=>$creds->login, "password"=>$creds->password);
 
-my $bloxmaster2 = 'ryeinfoblox.global.avon.com';
+my $bloxmaster2 = 'ibl01nyc2us.us.wspgroup.com';
 my $creds2 = Net::Netrc->lookup($bloxmaster2);
 my $session2 = Infoblox::Session->new("master"=> $bloxmaster2, "username"=>$creds2->login, "password"=>$creds2->password);
 

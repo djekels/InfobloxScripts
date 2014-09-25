@@ -7,7 +7,7 @@ use XML::Dumper;
 use strict;
 
 local $\ = "\n";
-my $bloxmaster = 'ryeinfoblox.global.avon.com';
+my $bloxmaster = 'ibl01nyc2us.us.wspgroup.com';
 my %options;
 getopts("a: ", \%options);
 my $creds = Net::Netrc->lookup($bloxmaster);

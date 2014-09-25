@@ -7,7 +7,7 @@ use Getopt::Std;
 use XML::Dumper;
 use strict;
 
-my $bloxmaster = 'ryeinfoblox.global.avon.com';
+my $bloxmaster = 'ibl01nyc2us.us.wspgroup.com';
 my %options;
 getopts("z:i:n: ", \%options);
 my $nsgroup = $options{n} or die;

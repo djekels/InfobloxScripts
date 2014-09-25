@@ -7,7 +7,7 @@ use Getopt::Std;
 use strict;
 
 local $\ = "\n";
-my $bloxmaster = 'ryeinfoblox.global.avon.com';
+my $bloxmaster = 'ibl01nyc2us.us.wspgroup.com';
 my %options;
 getopts("a:t: ", \%options);
 map {  s/\.\s*$// } values %options; # Make these tolerant of trailing dots
