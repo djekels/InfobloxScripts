@@ -1,0 +1,1 @@
+xmllint --xpath "//OBJECT[PROPERTY[@NAME='zone' and @VALUE='._default.com.wspgroup.us']]" onedb.xml | sed -e s/^/\<BLORF\>/ -e s/$/\<\\/BLORF\>/ | xgrep -x "//OBJECT[PROPERTY[@NAME='__type' and @VALUE='.com.infoblox.dns.bind_cname']]"
